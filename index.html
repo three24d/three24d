@@ -1,0 +1,696 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- saved from url=(0042)https://research.nvidia.com/labs/par/calm/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><script src="" type="text/javascript"></script>
+<script type="text/javascript">google.load("jquery", "1.3.2");</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+<style type="text/css">
+body {
+    font-family: "Titillium Web", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 300;
+    font-size: 17px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 980px;
+}
+h1 {
+    font-weight:300;
+    line-height: 1.15em;
+}
+
+h2 {
+    font-size: 1.75em;
+}
+a:link,a:visited {
+    color: #1367a7;
+    text-decoration: none;
+}
+a:hover {
+    color: #208799;
+}
+h1, h2, h3 {
+    text-align: center;
+}
+h1 {
+    font-size: 40px;
+    font-weight: 500;
+}
+h2 {
+    font-weight: 400;
+    margin: 16px 0px 4px 0px;
+}
+.paper-title {
+    padding: 16px 0px 16px 0px;
+}
+section {
+    margin: 32px 0px 32px 0px;
+    text-align: justify;
+    clear: both;
+}
+.col-6 {
+     width: 16.6%;
+     float: left;
+}
+.col-5 {
+     width: 20%;
+     float: left;
+}
+.col-4 {
+     width: 25%;
+     float: left;
+}
+.col-3 {
+     width: 33%;
+     float: left;
+}
+.col-2 {
+     width: 50%;
+     float: left;
+}
+.row, .author-row, .affil-row {
+     overflow: auto;
+}
+.author-row, .affil-row {
+    font-size: 20px;
+}
+.row {
+    margin: 16px 0px 16px 0px;
+}
+.authors {
+    font-size: 18px;
+}
+.affil-row {
+    margin-top: 16px;
+}
+.teaser {
+    max-width: 100%;
+}
+.text-center {
+    text-align: center;  
+}
+.screenshot {
+    width: 256px;
+    border: 1px solid #ddd;
+}
+.screenshot-el {
+    margin-bottom: 16px;
+}
+hr {
+    height: 1px;
+    border: 0; 
+    border-top: 1px solid #ddd;
+    margin: 0;
+}
+.material-icons {
+    vertical-align: -6px;
+}
+p {
+    line-height: 1.25em;
+}
+.caption {
+    font-size: 16px;
+    /*font-style: italic;*/
+    color: #666;
+    text-align: left;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+video {
+    display: block;
+    margin: auto;
+}
+figure {
+    display: block;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+#bibtex pre {
+    font-size: 14px;
+    background-color: #eee;
+    padding: 16px;
+}
+.blue {
+    color: #2c82c9;
+    font-weight: bold;
+}
+.orange {
+    color: #d35400;
+    font-weight: bold;
+}
+.flex-row {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.flex-row-mario {
+    display: flex; /* Creates a flex container */
+    flex-wrap: nowrap; /* Prevents wrapping to a new line */
+    justify-content: space-between; /* Ensures proper spacing */
+    align-items: center; /* Align items vertically in the center */
+    gap: 10px; /* Adds space between items */
+    overflow-x: auto; /* Allows horizontal scrolling if items overflow */
+}
+.flex-row-teaser {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Space between GIFs */
+    margin-top: 20px;
+}
+.paper-btn {
+  position: relative;
+  text-align: center;
+
+  display: inline-block;
+  margin: 8px;
+  padding: 8px 8px;
+
+  border-width: 0;
+  outline: none;
+  border-radius: 2px;
+  
+  background-color: #1367a7;
+  color: #ecf0f1 !important;
+  font-size: 20px;
+  width: 100px;
+  font-weight: 600;
+}
+
+.supp-btn {
+  position: relative;
+  text-align: center;
+
+  display: inline-block;
+  margin: 8px;
+  padding: 8px 8px;
+
+  border-width: 0;
+  outline: none;
+  border-radius: 2px;
+  
+  background-color: #1367a7;
+  color: #ecf0f1 !important;
+  font-size: 20px;
+  width: 150px;
+  font-weight: 600;
+}
+
+.paper-btn-parent {
+    display: flex;
+    justify-content: center;
+    margin: 16px 0px;
+}
+.paper-btn:hover {
+    opacity: 0.85;
+}
+.container {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+.venue {
+    color: #1367a7;
+}
+
+.kitti {
+    display: flex;
+    justify-content: center;
+    margin: 16px 0px;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #EEEEEE;
+}
+
+.topnav a {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.flex-row {
+    display: flex;
+    flex-wrap: wrap; /* Ensures videos stack on smaller screens */
+    gap: 10px; /* Adds spacing between items */
+    justify-content: space-between; /* Adjust spacing between the items */
+}
+
+.video-container {
+    text-align: center; /* Centers title and video */
+    width: calc(25% - 10px); /* Ensures proper spacing with 4 items */
+    box-sizing: border-box; /* Includes padding and border in width */
+}
+
+.video-container h3 {
+    margin-bottom: 4px; /* Smaller spacing between title and image */
+    font-size: 12px; /* Adjusted font size */
+    line-height: 1.2; /* Better compactness */
+}
+
+.video-container img {
+    width: 100%; /* Ensure images scale to the container */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.caption {
+    text-align: center; /* Centers the caption */
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+.centered-content {
+    text-align: center; /* Centers the text */
+}
+
+.centered-content hr {
+    width: 50%; /* Adjust the width of the <hr> */
+    margin: 0 auto; /* Centers the <hr> */
+}
+
+
+</style>
+
+
+</head><body><div class="topnav" id="myTopnav">
+    <figure style="width: 100%;">
+        <a href="./files/Bar-Ilan_University_logo.svg.png">
+            <img width="100%" src="./files/Bar-Ilan_University_logo.svg.png">
+        </a>
+    </figure>
+</div>
+
+<!-- End : Google Analytics Code -->
+<script type="text/javascript" src="./files/style/hidebib.js"></script>
+<link href="./files/style/css" rel="stylesheet" type="text/css">
+
+    <title>Bringing Objects to Life: training-free 4D generation from 3D objects through view consistent noise</title>
+    <meta property="og:description" content=".">
+    <link href="./files/style/css2" rel="stylesheet">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="./files/style/js"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-6HHDEXF452');
+</script>
+
+
+
+
+ 
+<div class="container">
+    <div class="paper-title">
+      <h1>Bringing Objects to Life: 4D generation from 3D objects</h1>
+    </div>
+
+    <div id="authors">
+        <div class="author-row"></div>
+            <div class="col-3 text-center"><a href="https://ohadrahamim.github.io/">Ohad Rahamim</a><sup>1</sup><span></span></div>
+            <div class="col-3 text-center"><a href="">Ori Malca</a><sup>1</sup><span></span></div>
+            <div class="col-3 text-center"><a href="https://chechiklab.biu.ac.il/~dvirsamuel/">Dvir Samuel</a><sup>1</sup></div>
+            <div class="col-12 text-center"><a href="https://research.nvidia.com/person/gal-chechik">Gal Chechik</a><sup>1,2</sup></div>
+        </div>
+
+        <div class="affil-row">
+            <div class="venue text-center">
+                <span><sup>1</sup>Bar-Ilan University</span>
+                <span style="margin: 0 20px;"></span>
+                <span><sup>2</sup>NVIDIA</span>
+            </div>
+        </div>
+
+        <style>
+            .equal-contribution-note p {
+                font-size: 0.8rem; /* Smaller font size */
+                margin: 0; /* Optional: Adjust spacing */
+            }
+        </style>
+
+        <!-- <div class="affil-row">
+            <div class="venue text-center"><b>NeurIPS 2024</b></div>
+        </div> -->
+
+        <div style="clear: both">
+            <div class="paper-btn-parent">
+            <a class="supp-btn" href="https://arxiv.org/abs/2412.20422">
+                <span class="material-icons">  </span> 
+                 Paper
+            </a>
+            <a class="supp-btn" href="https://github.com/ohad204/3to4D">
+                <span class="material-icons">  </span> 
+                  Code
+            </a>
+        </div></div>
+    </div>
+
+    <section id="teaser-videos">
+        <div class="flex-row-teaser">
+                <!-- <a href="./files/teaser.png">
+                    <img width="100%" src="./files/teaser.png">
+                </a> -->
+                <div class="video-container">
+                    <h3 style="font-size: 24px;">3D Mesh</h3>
+                    <img src="./gifs/icecream-melt-static.gif" alt="icecream static" width="15%" />
+                </div>
+                <div class="video-container">
+                    <h3 style="font-size: 20px;">the ice cream is melting</h3>
+                    <img src="./files/arrow.gif" alt="Mario running" width="15%" />
+                </div>
+                <div class="video-container">
+                    <h3 style="font-size: 24px;">Result 4D</h3>
+                    <img src="./gifs/icecream-melt.gif" alt="icecream melt" width="15%" />
+                </div>
+            </div>
+            <div class="flex-row-teaser">
+                <div class="video-container">
+                    <h3></h3>
+                    <img src="./gifs/candle_spell_2-static.gif" alt="candle static" width="15%" />
+                </div>
+                <div class="video-container">
+                    <h3 style="font-size: 20px;">a spell is cast through the purple flame</h3>
+                    <img src="./files/arrow.gif" alt="Mario running" width="15%" />
+                </div>
+                <div class="video-container">
+                    <h3></h3>
+                    <img src="./gifs/candle_spell_2.gif" alt="candle spell" width="15%" />
+                </div>
+            </div>
+            <p class="caption" style="margin-bottom: 1px;">
+                Our method, 3D24D, takes a passive 3D object and a textual prompt  describing a desired action. It then adds dynamics to the object based on the prompt to create a 4D animation, essentially a video viewable from any perspective. On the right, we display four 3D frames from the generated 4D animation.
+            </p>
+            <a href="#teaser" class="direct-link"></a>
+    </section>
+
+    <section id="abstract">
+        <h2>Abstract</h2>
+        <hr>
+        <p>            
+            Recent advancements in generative models have enabled the creation of dynamic 4D content — 3D objects in motion — based on text prompts, 
+            which holds potential for applications in virtual worlds, media, and gaming. Existing methods provide control over the appearance of 
+            generated content, including the ability to animate 3D objects. However, their ability to generate dynamics is limited to the mesh 
+            datasets they were trained on, lacking any growth or structural development capability. In this work, we introduce a training-free 
+            method for animating 3D objects by conditioning on textual prompts to guide 4D generation, enabling custom general scenes while maintaining 
+            the original object's identity. We first convert a 3D mesh into a static 4D Neural Radiance Field (NeRF) that preserves the object’s visual 
+            attributes. Then, we animate the object using an Image-to-Video diffusion model driven by text. To improve motion realism, we introduce a 
+            view-consistent noising protocol that aligns object perspectives with the noising process to promote lifelike movement, and a masked Score 
+            Distillation Sampling (SDS) loss that leverages attention maps to focus optimization on relevant regions, better preserving the original object. 
+            We evaluate our model on two different 3D object datasets for temporal coherence, prompt adherence, and visual fidelity, and find that 
+            our method outperforms the baseline based on multiview training, achieving better consistency with the textual prompt in hard scenarios.
+        </p>
+    </section>
+
+    <hr>
+    <h1>Overview</h1>
+    <hr>
+
+    <section id="Mario-videos">
+        <div class="flex-row-mario">
+            <div class="video-container">
+                <h3 style="font-size: 20px;">3D Mesh</h3>
+                <img src="./gifs/mario-running-static.gif" alt="Mario static" width="5%" />
+            </div>
+            <div class="video-container">
+                <h3></h3>
+                <img src="./files/arrow.gif" alt="Mario static" width="5%" />
+            </div>
+            <div class="video-container">
+                <h3 style="font-size: 20px;">Mario running</h3>
+                <img src="./gifs/mario-running.gif" alt="Mario running" width="10%" />
+            </div>
+            <div class="video-container">
+                <h3 style="font-size: 20px;">Mario waving</h3>
+                <img src="./gifs/mario-waving.gif" alt="Mario jumping" width="10%" />
+            </div>  
+            <div class="video-container">
+                <h3 style="font-size: 20px;">Mario walking</h3>
+                <img src="./gifs/mario-walking.gif" alt="Mario walking" width="10%" />
+            </div>
+        </div>
+        <p class="caption" style="margin-bottom: 1px;">
+            Left: we display the input object. Right: The resulted 4D object viewed from azimuth -60&deg; &#8594; 60&deg;, progressing over time.
+        </p>
+            <div style="width: 100%;">
+                <br><br>
+                <p>
+                    Instead of generating a 4D dynamic object using text control only, one may want to animate an existing 3D object, 
+                    like your favorite 3D toy or character. Conditioning 4D generation on 3D assets offers several advantages: it 
+                    enhances control, leverages existing 3D resources efficiently, and accelerates 4D generation by using 3D as a strong 
+                    initialization. 
+                </p> 
+
+                <p>
+                    The latest advancement in conditioning is 3D-to-4D generation which train multi-view image-to-video diffusion models. 
+                    These works capture a 3D object from multiple viewpoints and generate temporally consistent videos for each, 
+                    ensuring coherence across different perspectives. To achieve this consistency, they rely on large-scale datasets
+                    of multi-view videos derived from existing 4D objects. However, these 4D objects are represented as meshes, 
+                    which are inherently constrained by their fixed number of vertices and faces. As a result, approaches trained 
+                    on this dataset tend to be more limited in handling evolution, volume change or growth deformation.
+                </p>
+
+                <p>
+                    In this work, we introduce a training-free method for animating 3D objects by conditioning on textual 
+                    prompts to guide 4D generation, enabling custom general scenes while maintaining the original object's identity, 
+                    called  3D24D.
+                    Taking a simple approach that incorporates textual descriptions to govern the animation of the 3D objects.  
+                    First, we train a "static" 4D NeRF based on the 3D mesh input, effectively capturing 
+                    the object appearance from multiple views, replicated across time. Then, our method modifies 
+                    the 4D object using an image-to-video diffusion model, conditioned 
+                    the first frame on renderings of the input object.
+                </p>
+
+                <p>
+                    Unfortunately, we find that applying this approach naively is insufficient because it dramatically reduces the level 
+                    of dynamic motion. We propose two key improvements that both enhance the generation of dynamic movements and ensure better 
+                    preservation of the input object. First, we design a new view-consistent noising strategy for 4D generation, which 
+                    constructs a noise pattern associated with the rendered viewpoint during optimization. This association between the 
+                    viewpoint and the noising approach enhances the generation process, resulting in more pronounced motion in the animated 4D output. 
+                    Second, we introduce a masked variant of the SDS loss that uses attention maps obtained from the image-to-video model. 
+                    This masked SDS focuses optimization on the object across temporally relevant regions of the latent space, enhancing the 
+                    fidelity of object-related elements and better preserving its identity.
+                </p>
+                
+                
+            </div>
+        </div>
+    </section>
+
+    <section id="pipeline">
+
+        <h2>Pipeline</h2>
+        <hr>
+
+        <figure style="width: 100%;">
+            <a href="./files/pipeline.png">
+                <img width="100%" src="./files/pipeline.png">
+            </a>
+            <p class="caption" style="margin-bottom: 1px;">
+                Workflow of our 3D24D approach, designed to optimize a 4D radiance field using a neural representation that captures both static and dynamic elements. First, a 4D NeRF is trained to represent the static object (plant, left), having the same 3D structure at each time step. Then, we introduce dynamics to the 4D NeRF by distilling the prior from a pre-trained image-to-video model. At each SDS step, we select a viewpoint and render both the input object, the noise sphere, and the 4D NeRF from the same selected viewpoint. These renders, along with the textual prompts, are then fed into the image-to-video model, and the SDS loss is calculated to guide the generation of motion while preserving the object's identity.
+                The noise is rendered from the sphere using the same viewpoint as the static object, providing better consistency at each step.
+            </p>
+        </figure>
+
+    </section>    
+    
+    <section id="Results">
+
+        <h2>Results</h2>
+        <div class="centered-content">
+            <hr>
+            <p>For a collection of 3D objects, we used the Google Scanned Objects (GSO) dataset. This is a collection of high-quality 3D scans of everyday items.</p>
+            <hr>
+            </div>
+                <div class="flex-row">
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">3D Mesh<br><br><br><br></h3>
+                        <img src="./gifs/hulk-transform-static.gif" alt="Hulk static" width="15%" />
+                    </div>
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">the hulk is transforming<br><br><br><br></h3>
+                        <img src="./gifs/hulk-transform.gif" alt="Hulk transforming" width="15%" />
+                    </div>
+                
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">3D Mesh<br><br><br><br></h3>
+                        <img src="./gifs/plant-bloom-static.gif" alt="Plant static" width="15%" />
+                    </div>
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">A blooming plant slowly grows with colorful branches expanding outward</h3>
+                        <img src="./gifs/plant-bloom.gif" alt="Plant blooming" width="15%" />
+                    </div>
+                </div>
+        
+                <div class="flex-row">
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">3D Mesh<br><br><br></h3>
+                        <img src="./gifs/candle-spell-static.gif" alt="Candle spell static" width="15%" />
+                    </div>
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">a spell is cast through the flame, its fire flickering and growing</h3>
+                        <img src="./gifs/candle-spell.gif" alt="Candle spell casting" width="15%" />
+                    </div>
+                
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">3D Mesh<br><br><br><br></h3>
+                        <img src="./gifs/elephant-wings-static.gif" alt="Elephant wings static" width="15%" />
+                    </div>
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">an elephant grows its ears into long, powerful wings, stretching wide with a graceful flap</h3>
+                        <img src="./gifs/elephant-wings.gif" alt="Elephant wings flap" width="15%" />
+                    </div>
+                </div>
+        
+                <div class="flex-row">
+                    <div class="flex-row">
+                        <div class="video-container">
+                            <h3 style="font-size: 20px;">3D Mesh<br><br><br><br></h3>
+                            <img src="./gifs/unicorn-rainbow-static.gif" alt="Unicorn rainbow static" width="15%" />
+                        </div>
+                        <div class="video-container">
+                            <h3 style="font-size: 20px;">a unicorn grows a colorful rainbow tail<br><br><br></h3>
+                            <img src="./gifs/unicorn-rainbow.gif" alt="Unicorn rainbow tail" width="15%" />
+                        </div>
+                
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">3D Mesh<br><br><br></h3>
+                        <img src="./gifs/snowman-melt-static.gif" alt="Snowman static" width="15%" />
+                    </div>
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">a snowman is melting, water trickling down its sides into a pool</h3>
+                        <img src="./gifs/snowman-melt.gif" alt="Snowman melting" width="15%" />
+                    </div>
+                </div>
+        
+                <div class="flex-row">
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">3D Mesh<br><br></h3>
+                        <img src="./gifs/turtle-head-static.gif" alt="Turtle static" width="15%" />
+                    </div>
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">A turtle has its head inside its shell</h3>
+                        <img src="./gifs/turtle-head.gif" alt="Turtle head inside" width="15%" />
+                    </div>
+                
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">3D Mesh<br><br></h3>
+                        <img src="./gifs/honey-dipper-static.gif" alt="Honey dipper static" width="15%" />
+                    </div>
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">Honey spills from a dipper</h3>
+                        <img src="./gifs/honey-dipper.gif" alt="Honey spilling" width="15%" />
+                    </div>
+                </div>
+
+
+                <div class="flex-row">
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">3D Mesh<br><br><br><br></h3>
+                        <img src="./gifs/apple-bite-static.gif" alt="Apple static" width="15%" />
+                    </div>
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">an apple with a bite taken out of it<br><br><br></h3>
+                        <img src="./gifs/apple-bite.gif" alt="Apple bite" width="15%" />
+                    </div>
+                
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">3D Mesh<br><br><br><br></h3>
+                        <img src="./gifs/broccoli-grow-static.gif" alt="Broccoli static" width="15%" />
+                    </div>
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">broccoli is growing and blooming, its green stalks stretching upward</h3>
+                        <img src="./gifs/broccoli-grow.gif" alt="Broccoli growing" width="15%" />
+                    </div>
+                </div>
+            
+                <div class="flex-row">
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">3D Mesh<br><br><br></h3>
+                        <img src="./gifs/candle-down-melt-static.gif" alt="Candle down melt static" width="15%" />
+                    </div>
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">a candle is melting downward, wax dripping steadily</h3>
+                        <img src="./gifs/candle-down-melt.gif" alt="Candle down melting" width="15%" />
+                    </div>
+                
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">3D Mesh<br><br></h3>
+                        <img src="./gifs/candle-melt-static.gif" alt="Candle melt static" width="15%" />
+                    </div>
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">a candle is melting, wax pooling at its base</h3>
+                        <img src="./gifs/candle-melt.gif" alt="Candle melting" width="15%" />
+                    </div>
+                </div>
+            
+                <div class="flex-row">
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">3D Mesh<br><br><br></h3>
+                        <img src="./gifs/raccoon-fire-static.gif" alt="Raccoon fire static" width="15%" />
+                    </div>
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">a raccoon breathing fire from a weapon<br><br></h3>
+                        <img src="./gifs/raccoon-fire.gif" alt="Raccoon fire breathing" width="15%" />
+                    </div>
+                
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">3D Mesh<br><br><br></h3>
+                        <img src="./gifs/icecream-chocholate-static.gif" alt="Ice cream chocolate static" width="15%" />
+                    </div>
+                    <div class="video-container">
+                        <h3 style="font-size: 20px;">a chocolate is poured over the ice cream and drips from its side</h3>
+                        <img src="./gifs/icecream-chocholate.gif" alt="Ice cream chocolate dripping" width="15%" />
+                    </div>
+                </div>
+            </div>
+        
+            
+            <p class="caption" style="margin-bottom: 1px;">
+            Example arranged in two columns, where each column has the following structure: 
+            On the left, we display the input 3D passive object. On the right, we present a video of generated 4D object, viewed from azimuth -60&deg; &#8594; 60&deg;, progressing over time. 
+            The title represnt the input prompt. 
+            </p>
+        </figure>
+        
+
+    </section>
+    
+    <section id="bibtex">
+        <h2>Citation</h2>
+        <pre><code>
+<!-- @article{rahamim2024lay,
+    title={Lay-A-Scene: Personalized 3D Object Arrangement Using Text-to-Image Priors},
+    author={Rahamim, Ohad and Segev, Hilit and Achituve, Idan and Atzmon, Yuval and Kasten, Yoni and Chechik, Gal},
+    journal={arXiv preprint arXiv:2406.00687},
+    year={2024}
+    } -->
+    @article{rahamim2024bringingobjectslife4d,
+        title={Bringing Objects to Life: 4D generation from 3D objects}, 
+        author={Ohad Rahamim and Ori Malca and Dvir Samuel and Gal Chechik},
+        year={2024},
+        eprint={2412.20422},
+        archivePrefix={arXiv},
+        primaryClass={cs.CV},
+        url={https://arxiv.org/abs/2412.20422}, 
+  }
+    </section>
+
+    
+
+<br>
+
+
+</div>
+
+
+</body></html>

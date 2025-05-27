@@ -1,0 +1,1 @@
+# Bringing Objects to Life: 4D generation from 3D objects
